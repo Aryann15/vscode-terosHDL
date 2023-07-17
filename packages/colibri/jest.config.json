@@ -3,6 +3,9 @@
     "testEnvironment": "node",
     "collectCoverage": true,
     "coverageDirectory": "coverage",
+    "testPathIgnorePatterns": [
+        "tests_old"
+    ],
     "reporters": [
         "default",
         [

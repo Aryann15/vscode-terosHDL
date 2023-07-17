@@ -23,5 +23,9 @@
         "no-tabs": "warn",
         "curly": "warn",
         "@typescript-eslint/no-var-requires": "off"
+    },
+    "env": {
+        "jest": true,
+        "jest/globals": true
     }
 }

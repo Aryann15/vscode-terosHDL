@@ -15,18 +15,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with colibri2.  If not, see <https://www.gnu.org/licenses/>.
+
 import * as fs from 'fs';
 import * as path_lib from 'path';
 
 /**
  * Get full path
- * @param  {string} path
- * @returns {string} Full path
+ * @param path
+ * @returns Full path
  */
 export function get_full_path(path: string): string {
     return path_lib.resolve(path);
 }
 
+/**
+ * Get relative path from other **file**
+ * @param path Path to get the relative
+ * @param reference_path Reference path
+ * @returns Relative path
+ */
 export function get_relative_path(path: string, reference_path: string): string {
     const reference_dir = get_directory(reference_path);
     return path_lib.relative(reference_dir, path);
@@ -34,8 +41,8 @@ export function get_relative_path(path: string, reference_path: string): string 
 
 /**
  * Get full path
- * @param  {string} path
- * @returns {string} Filename
+ * @param path
+ * @returns Filename
  */
 export function get_filename(path: string, with_extension = true): string {
     if (with_extension === true) {
@@ -48,8 +55,8 @@ export function get_filename(path: string, with_extension = true): string {
 
 /**
  * Get the extension of a file
- * @param  {string} file_path
- * @returns {string} Extension. E.g: .csv
+ * @param file_path
+ * @returns Extension. E.g: .csv
  */
 export function get_file_extension(file_path: string): string {
     return path_lib.extname(file_path);
@@ -57,10 +64,10 @@ export function get_file_extension(file_path: string): string {
 
 /**
  * Check if a file has the extension
- * @param  {string} file_path File path
- * @param  {string} file_extension_expected Extension of the file
- * @param  {string} case_sensitive Case sensitive comparation
- * @returns {boolean} True if extension, false if not
+ * @param file_path File path
+ * @param file_extension_expected Extension of the file
+ * @param case_sensitive Case sensitive comparation
+ * @returns True if extension, false if not
  */
 export function check_file_extension(file_path: string, file_extension_expected: string,
     case_sensitive: boolean): boolean {
@@ -79,8 +86,8 @@ export function check_file_extension(file_path: string, file_extension_expected:
 
 /**
  * Read sync a file from the path
- * @param  {string} file_path File path
- * @returns {string} Content of file
+ * @param  file_path File path
+ * @returns Content of file
  */
 export function read_file_sync(file_path: string): string {
     const content = fs.readFileSync(file_path, 'utf8');
@@ -89,9 +96,9 @@ export function read_file_sync(file_path: string): string {
 
 /**
  * Write sync content to file
- * @param  {string} file_path File path
- * @param  {string} content Content
- * @param  {boolean} append Append to file
+ * @param file_path File path
+ * @param content Content
+ * @param append Append to file
  */
 export function save_file_sync(file_path: string, content: string, append = false) {
     if (append === true) {
@@ -103,35 +110,47 @@ export function save_file_sync(file_path: string, content: string, append = fals
 }
 
 /**
- * @param  {string} file_path
- * @returns {boolean} True if exist, false if not
+ * Check if a path exist
+ * @param file_path
+ * @returns True if exist, false if not
  */
 export function check_if_path_exist(file_path: string): boolean {
     return fs.existsSync(file_path);
 }
 
 /**
- * @param  {string} file_path
- * @returns {boolean} True if file, false if directory
+ * Check if a path is a file
+ * @param file_path
+ * @returns True if file, false if directory or not exist
  */
 export function check_if_file(file_path: string): boolean {
-    return !fs.lstatSync(file_path).isDirectory();
+    try {
+        return !fs.lstatSync(file_path).isDirectory();
+    }
+    catch (err) {
+        return false;
+    }
 }
 
 /**
  * Check if a file path is absolute
- * @param  {string} path Path
- * @returns {boolean} True if absolute path
+ * @param  path Path
+ * @returns True if absolute path
  */
 export function is_absolute(path: string): boolean {
-    return path_lib.isAbsolute(path);
+    try {
+        return path_lib.isAbsolute(path);
+    }
+    catch (err) {
+        return false;
+    }
 }
 
 /**
  * Get the absolute path from the current directory
- * @param  {string} current_directory Current directory
- * @param  {string} path Relative/absolute path
- * @returns {string} Absolute path from current directory
+ * @param current_directory Current directory
+ * @param path Relative/absolute path
+ * @returns Absolute path from current directory
  */
 export function get_absolute_path(current_directory: string, path: string): string {
     // Path is absolute
@@ -143,8 +162,8 @@ export function get_absolute_path(current_directory: string, path: string): stri
 
 /**
  * Get directory from path
- * @param  {string} path Path
- * @returns {string} Direcotry of path
+ * @param path Path
+ * @returns Direcotry of path
  */
 export function get_directory(path: string): string {
     return path_lib.dirname(path);
